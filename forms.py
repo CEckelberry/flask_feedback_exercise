@@ -8,15 +8,15 @@ from wtforms.validators import InputRequired, Optional, Email, URL, AnyOf, Numbe
 class AddUserForm(FlaskForm):
     """form for adding a user"""
 
-    username = StringField("Username")
+    username = StringField("Username", validators=[InputRequired()])
 
-    password = PasswordField("Password")
+    password = PasswordField("Password", validators=[InputRequired()])
 
-    email = StringField("Email", validators=[Email()])
+    email = StringField("Email", validators=[Email(), InputRequired()])
 
-    first_name = StringField("First Name")
+    first_name = StringField("First Name", validators=[InputRequired()])
 
-    last_name = StringField("Last Name")
+    last_name = StringField("Last Name", validators=[InputRequired()])
 
 
 class LoginUserForm(FlaskForm):
