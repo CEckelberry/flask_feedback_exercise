@@ -18,6 +18,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
 connect_db(app)
+db.create_all()
 
 
 @app.route("/", methods=["GET"])
@@ -34,7 +35,7 @@ def register():
 
 
 @app.route("/register", methods=["POST"])
-def register():
+def register_post():
     """registration post route that redirects to secret"""
     form = AddUserForm()
     if form.validate_on_submit():
@@ -44,7 +45,7 @@ def register():
         first_name = form.first_name.data
         last_name = form.last_name.data
 
-        new_user.register(username, password, email, first_name, last_name)
+        new_user = User.register(username, password, email, first_name, last_name)
 
         db.session.add(new_user)
         db.session.commit()
@@ -64,7 +65,7 @@ def login():
 
 
 @app.route("/login", methods=["POST"])
-def login():
+def login_post():
     """Route to login registered users"""
     form = LoginUserForm()
     if form.validate_on_submit():
