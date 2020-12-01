@@ -8,7 +8,7 @@ from flask import (
     request,
     session,
 )
-from models import db, connect_db, User
+from models import db, connect_db, User, Feedback
 from forms import AddUserForm, LoginUserForm
 
 app = Flask(__name__)
@@ -51,7 +51,7 @@ def register_post():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect("/secret")
+        return redirect("/users/<username>")
     else:
         return render_template("register.html")
 
@@ -75,21 +75,26 @@ def login_post():
         user = User.authenticate(username, password)
         if user:
             session["username"] = user.username
-            return redirect("/secret")
+            return redirect(f"/users/{username}")
     else:
         form.username.errors = ["invalid username/password"]
         return render_template("login.html")
 
 
-@app.route("/secret", methods=["GET"])
-def show_secret():
+@app.route("/users/<username>", methods=["GET"])
+def show_profile(username):
     """page that should only show once you are logged in"""
-
+    user = User.query.get_or_404(username)
+    feedback = Feedback.query.filter_by(username=username)
+    print(user)
+    # email = user["email"]
+    # first_name = user["first_name"]
+    # last_name = user["last_name"]
     if "username" not in session:
         flash("Please login before attempting to view the secret!", "error")
         return redirect("/login")
 
-    return "You made it!"
+    return render_template("user.html", user=user, feedback=feedback)
 
 
 @app.route("/logout", methods=["GET"])

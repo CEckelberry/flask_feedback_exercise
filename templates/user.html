@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}User Info{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="col mb-4">
+            <h1 class="display-1">User Info</h1>
+        </div>
+    </div>
+    <hr>
+    <div class="row text-center">
+        <div class="col mb-4">
+            <h3 class="display-4"><b>Username: </b>{{user.username}}</h3>
+            <h3 class="display-4"><b>Email: </b> {{user.email}}</h3>
+            <h3 class="display-4"><b>First Name: </b>{{user.first_name}}</h3>
+            <h3 class="display-4"><b>Last Name: </b>{{user.last_name}}</h3>
+        </div>
+    </div>
+    <hr>
+    <div class="row text-center">
+        <div class="col mb-4">
+            <h3 class="display-1">Feedback</h3>
+            {% for feed in feedback %}
+                <div class="d-inline">
+                    <a href="/feedback/{{feed.id}}/update">{{feed.title}}</a>
+                    <button><i class="fas fa-minus-circle"></i></button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
