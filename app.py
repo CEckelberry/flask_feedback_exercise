@@ -6,6 +6,7 @@ from flask import (
     render_template,
     jsonify,
     request,
+    session,
 )
 from models import db, connect_db, User
 from forms import AddUserForm, LoginUserForm
@@ -83,4 +84,16 @@ def login_post():
 @app.route("/secret", methods=["GET"])
 def show_secret():
     """page that should only show once you are logged in"""
+
+    if "username" not in session:
+        flash("Please login before attempting to view the secret!", "error")
+        return redirect("/login")
+
     return "You made it!"
+
+
+@app.route("/logout", methods=["GET"])
+def logout():
+    """This route clears out session data and logs a user out"""
+    session.clear()
+    return redirect("/")
