@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback Edit Form{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="col mb-4">
+            <h1 class="display-1">Edit Feedback</h1>
+            {% for msg in get_flashed_messages() %}
+                <div>{{ msg }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-6 offset-md-3">
+            <form id="feedback_form" class="border border-light p-5" action="/feedback/{{feedback.id}}/update "method="POST">
+                {{ form.hidden_tag() }} <!--add type=hidden form fields -->
+                
+                    {% for field in form
+                        if field.widget.input_type != 'hidden' %}
+                    
+                    <p>
+                        {{ field.label }}
+                        {{ field(class_="form-control") }}
+                
+                        {% for error in field.errors %}
+                        <small class="form-text text-danger">
+                        {{ error }}
+                        </small>
+                        {% endfor %}
+                    </p>
+                
+                    {% endfor %}
+                    <button class="btn btn-info my-4 btn-block" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

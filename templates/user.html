@@ -17,6 +17,7 @@
             <h3 class="display-4"><b>Email: </b> {{user.email}}</h3>
             <h3 class="display-4"><b>First Name: </b>{{user.first_name}}</h3>
             <h3 class="display-4"><b>Last Name: </b>{{user.last_name}}</h3>
+            <button class="btn btn-danger my-4" id="user_delete_btn" data-id={{user.username}}>Delete User</button>
         </div>
     </div>
     <hr>
@@ -24,9 +25,9 @@
         <div class="col mb-4">
             <h3 class="display-1">Feedback</h3>
             {% for feed in feedback %}
-                <div class="d-inline">
-                    <a href="/feedback/{{feed.id}}/update">{{feed.title}}</a>
-                    <button><i class="fas fa-minus-circle"></i></button>
+                <div class="d-inline-flex">
+                    <h4><a href="/feedback/{{feed.id}}/update">{{feed.title}}: &nbsp;</a></h4>
+                    <button><i class="far fa-trash-alt" id="delete_btn" data-id={{feed.id}}></i></button>
                 </div>
             {% endfor %}
         </div>
