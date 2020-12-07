@@ -9,7 +9,7 @@ from flask import (
     session,
 )
 from models import db, connect_db, User, Feedback
-from forms import AddUserForm, LoginUserForm
+from forms import AddUserForm, LoginUserForm, FeedbackForm
 
 app = Flask(__name__)
 
@@ -81,6 +81,13 @@ def login_post():
         return render_template("login.html")
 
 
+@app.route("/logout", methods=["GET"])
+def logout():
+    """This route clears out session data and logs a user out"""
+    session.clear()
+    return redirect("/")
+
+
 @app.route("/users/<username>", methods=["GET"])
 def show_profile(username):
     """page that should only show once you are logged in"""
@@ -97,8 +104,26 @@ def show_profile(username):
     return render_template("user.html", user=user, feedback=feedback)
 
 
-@app.route("/logout", methods=["GET"])
-def logout():
-    """This route clears out session data and logs a user out"""
-    session.clear()
-    return redirect("/")
+@app.route("/users/<username>/feedback/add", methods=["GET"])
+def add_feedback(username):
+    """form to add user feedback and tie it to a user account"""
+    user = User.query.get_or_404(username)
+    form = FeedbackForm()
+
+    if "username" not in session:
+        flash("Please login before attempting to view this page!", "error")
+        return redirect("/login")
+
+    return render_template("feedback_form.html", user=user, form=form)
+
+
+@app.route("/users/<username>/feedback/add", methods=["POST"])
+def add_feedback_sub(username):
+    """submission POST route for feedback"""
+
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+
+        if user:
+            session["username"] = user.username
