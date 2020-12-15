@@ -10,10 +10,11 @@ from flask import (
 )
 from models import db, connect_db, User, Feedback
 from forms import AddUserForm, LoginUserForm, FeedbackForm
+import os
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "oh-so-secret"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "oh-so-secret")
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///users"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
