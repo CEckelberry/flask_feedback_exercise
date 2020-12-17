@@ -29,13 +29,15 @@
     <div class="row text-center">
         <div class="col mb-4">
             <h3 class="display-1">Feedback</h3>
-            {% for feed in feedback %}
-                <div class="d-inline-flex">
-                    <h4><a href="/feedback/{{feed.id}}/update">{{feed.title}}: &nbsp;</a></h4>
-                    <button><i class="far fa-trash-alt" id="delete_btn" data-id={{feed.id}}></i></button>
-                </div>
-            {% endfor %}
-            <button class="btn btn-info my-4 text-light"><a href="/users/{{user.username}}/feedback/add">Add Feedback</a></button>
+            <div id="feedback">
+                {% for feed in feedback %}
+                    <div class="">
+                        <li class="d-inline-block"><a href="/feedback/{{feed.id}}/update">{{feed.title}}: &nbsp;</a></li>
+                        <button><i class="d-inline-block far fa-trash-alt" id="delete_btn" data-id={{feed.id}}></i></button>
+                    </div>
+                {% endfor %}
+                <button class="btn btn-info my-4 text-light"><a href="/users/{{user.username}}/feedback/add" class="active">Add Feedback</a></button>
+            </div>
         </div>
     </div>
 </div>
